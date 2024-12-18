@@ -9,8 +9,12 @@ const loginValidationSchema = z.object({
 const RegisterValidationSchema = z.object({
   body: z.object({
     name: z.string({ required_error: 'Name is required.' }),
-    email: z.string({ required_error: 'Email is required.' }),
-    password: z.string({ required_error: 'Password is required' }),
+    email: z
+      .string({ required_error: 'Email is required.' })
+      .email('Invalid email format'),
+    password: z.string({ required_error: 'Password is required.' }),
+    role: z.string().default('user'), // Default value set to 'user'
+    isBlocked: z.boolean().default(false), // Default value set to false
   }),
 });
 
