@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import { TUser } from './user.interface';
 
 // User Schema Definition
@@ -13,4 +13,4 @@ const userSchema = new Schema<TUser>({
 });
 
 // Model Creation
-export const User = model<TUser>('Users', userSchema);
+export const User = mongoose.model<TUser>('User', userSchema);
