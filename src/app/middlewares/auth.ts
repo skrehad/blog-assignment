@@ -5,7 +5,7 @@
 // import { User } from '../modules/user/user.model';
 // import catchAsync from '../utils/catchAsync';
 // // import jwt, { JwtPayload } from 'jsonwebtoken';
-// const HttpStatus = require('http-status-ts');
+// import { StatusCodes } from 'http-status-codes';
 
 // const auth = (...requiredRoles: TUserRole[]) => {
 //   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -14,7 +14,7 @@
 //     // checking if the token is missing
 //     if (!token) {
 //       throw new AppError(
-//         HttpStatus.HttpStatus.UNAUTHORIZED,
+//         StatusCodes .UNAUTHORIZED,
 //         'You are not authorized!',
 //       );
 //     }
@@ -32,7 +32,7 @@
 
 //     if (!user) {
 //       throw new AppError(
-//         HttpStatus.HttpStatus.NOT_FOUND,
+//         StatusCodes .NOT_FOUND,
 //         'This user is not found !',
 //       );
 //     }
@@ -42,7 +42,7 @@
 
 //     if (isDeleted) {
 //       throw new AppError(
-//         HttpStatus.HttpStatus.FORBIDDEN,
+//         StatusCodes .FORBIDDEN,
 //         'This user is deleted !',
 //       );
 //     }
@@ -52,7 +52,7 @@
 
 //     if (userStatus === 'blocked') {
 //       throw new AppError(
-//         HttpStatus.HttpStatus.FORBIDDEN,
+//         StatusCodes .FORBIDDEN,
 //         'This user is blocked ! !',
 //       );
 //     }
@@ -65,14 +65,14 @@
 //       )
 //     ) {
 //       throw new AppError(
-//         HttpStatus.HttpStatus.UNAUTHORIZED,
+//         StatusCodes .UNAUTHORIZED,
 //         'You are not authorized !',
 //       );
 //     }
 
 //     if (requiredRoles && !requiredRoles.includes(role)) {
 //       throw new AppError(
-//         HttpStatus.HttpStatus.UNAUTHORIZED,
+//         StatusCodes .UNAUTHORIZED,
 //         'You are not authorized  hi!',
 //       );
 //     }
