@@ -1,7 +1,7 @@
 import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 
-const handleDuplicateError = (err: any): TGenericErrorResponse => {
-  const match = err.message.match(/"([^"]*)"/);
+const handleDuplicateError = (error: any): TGenericErrorResponse => {
+  const match = error.message.match(/"([^"]*)"/);
 
   const extractedMessage = match ? match[1] : 'Unknown ID'; // Ensure we have a valid message
 
