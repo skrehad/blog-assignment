@@ -9,8 +9,9 @@ class QueryBuilder<T> {
     this.query = query;
   }
 
+  // Search by title (or other searchable fields)
   search(searchableFields: string[]) {
-    const searchTerm = this?.query?.searchTerm;
+    const searchTerm = this?.query?.search as string;
     if (searchTerm) {
       this.modelQuery = this.modelQuery.find({
         $or: searchableFields.map(
@@ -25,41 +26,33 @@ class QueryBuilder<T> {
     return this;
   }
 
+  // Filter by specific fields (author, etc.)
   filter() {
-    const queryObj = { ...this.query }; // copy
+    const queryObj = { ...this.query }; // copy query params
 
-    // Filtering
-    const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
-
+    // Exclude fields that are not part of the filter criteria
+    const excludeFields = ['search', 'sortBy', 'sortOrder', 'fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
 
     this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
-
     return this;
   }
 
+  // Sorting blogs by a field and order (ascending/descending)
   sort() {
-    const sort =
-      (this?.query?.sort as string)?.split(',')?.join(' ') || '-createdAt';
-    this.modelQuery = this.modelQuery.sort(sort as string);
+    const sortBy = (this?.query?.sortBy as string) || 'createdAt';
+    const sortOrder = (this?.query?.sortOrder as string) || 'desc';
 
+    // Constructing sort order: asc or desc
+    const sortQuery = sortOrder === 'asc' ? `${sortBy}` : `-${sortBy}`;
+    this.modelQuery = this.modelQuery.sort(sortQuery);
     return this;
   }
 
-  paginate() {
-    const page = Number(this?.query?.page) || 1;
-    const limit = Number(this?.query?.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
-
-    return this;
-  }
-
+  // Select specific fields to return
   fields() {
     const fields =
       (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v';
-
     this.modelQuery = this.modelQuery.select(fields);
     return this;
   }

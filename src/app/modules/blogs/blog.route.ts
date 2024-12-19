@@ -10,8 +10,13 @@ const router = express.Router();
 router.post(
   '/',
   auth(USER_ROLE.user),
-  // validateRequest(BlogPostValidation.blogPostValidationSchema),
+  validateRequest(BlogPostValidation.blogPostValidationSchema),
   BlogController.createBlog,
 );
+router.get('/', auth(USER_ROLE.user), BlogController.getAllBlog);
+
+router.patch('/:id', auth(USER_ROLE.user), BlogController.updateBlog);
+
+router.delete('/:id', auth(USER_ROLE.user), BlogController.deleteBlog);
 
 export const BlogRoutes = router;
