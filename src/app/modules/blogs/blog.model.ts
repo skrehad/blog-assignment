@@ -9,6 +9,7 @@ const blogPostSchema = new Schema<TBlog>(
     author: {
       name: { type: String },
       email: { type: String },
+      // ref: 'User',
     },
   },
   {

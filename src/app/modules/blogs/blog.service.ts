@@ -11,17 +11,16 @@ const createBlogIntoDB = async (payload: TBlog) => {
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
   const result = await BlogPost.find();
 
-  // const blogQuery = new QueryBuilder(BlogPost.find(), query)
-  //   .search(CourseSearchableFields)
-  //   .filter()
-  //   .sort()
-  //   .fields();
+  const blogQuery = new QueryBuilder(BlogPost.find(), query)
+    .search(CourseSearchableFields)
+    .filter()
+    .sort()
+    .fields();
+  console.log(blogQuery.query.filter);
 
-  // const result = await blogQuery.modelQuery;
-
-  return result;
+  // Execute the query and return the result
+  return blogQuery.modelQuery;
 };
-
 const updateBlogFromDb = async (id: string, payload: Partial<TBlog>) => {
   const result = await BlogPost.findByIdAndUpdate({ _id: id }, payload, {
     new: true,

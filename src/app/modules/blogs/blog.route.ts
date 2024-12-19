@@ -13,7 +13,11 @@ router.post(
   validateRequest(BlogPostValidation.blogPostValidationSchema),
   BlogController.createBlog,
 );
-router.get('/', auth(USER_ROLE.user), BlogController.getAllBlog);
+router.get(
+  '/',
+  //  auth(USER_ROLE.user),
+  BlogController.getAllBlog,
+);
 
 router.patch('/:id', auth(USER_ROLE.user), BlogController.updateBlog);
 

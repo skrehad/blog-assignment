@@ -1,1 +1,2 @@
-export const CourseSearchableFields = ['title'];
+// constants/constants.ts
+export const CourseSearchableFields = ['title', 'content'];

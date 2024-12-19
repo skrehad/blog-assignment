@@ -52,7 +52,7 @@ const getAllBlog = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'All Course are find successfully',
+    message: 'All Blogs are find successfully',
     data: result,
   });
 });
