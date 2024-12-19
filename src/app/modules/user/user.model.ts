@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { TUser } from './user.interface';
+import { TUser, UserModel } from './user.interface';
 import config from '../../config';
 import bcrypt from 'bcrypt';
 
@@ -53,4 +53,4 @@ userSchema.statics.isJWTIssuedBeforePasswordChanged = function (
 };
 
 // Model Creation
-export const User = mongoose.model<TUser>('User', userSchema);
+export const User = mongoose.model<TUser, UserModel>('User', userSchema);
