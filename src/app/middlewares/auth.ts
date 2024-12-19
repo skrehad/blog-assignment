@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import config from '../config';
 import AppError from '../errors/AppError';
-import { TUserRole } from '../modules/user/user.interface';
-import { User } from '../modules/user/user.model';
 import catchAsync from '../utils/catchAsync';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
+import { UserRegister } from '../modules/auth/auth.model';
+import { TUserRole } from '../modules/auth/auth.interface';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -25,7 +25,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     const { role, userId, iat } = decoded;
 
     // checking if the user is exist
-    const user = await User.isUserExistsByCustomId(userId);
+    const user = await UserRegister.isUserExistsByCustomId(userId);
 
     if (!user) {
       throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');

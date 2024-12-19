@@ -1,3 +1,6 @@
+import { Model } from 'mongoose';
+import { USER_ROLE } from './auth.constant';
+
 export type TLoginUser = {
   id: string;
   password: string;
@@ -6,6 +9,20 @@ export type TRegisterUser = {
   name: string;
   email: string;
   password: string;
-  role?: string;
-  isBlocked?: string;
+  role: 'admin' | 'user';
+  isBlocked?: boolean;
 };
+
+export interface UserModel extends Model<TRegisterUser> {
+  isUserExistsByCustomId(id: string): Promise<TRegisterUser>;
+  isPasswordMatched(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
+  isJWTIssuedBeforePasswordChanged(
+    passwordChangedTimestamp: Date,
+    jwtIssuedTimestamp: number,
+  ): boolean;
+}
+
+export type TUserRole = keyof typeof USER_ROLE;

@@ -3,14 +3,14 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { BlogServices } from './blog.service';
 import { loginEmail } from '../auth/auth.utils';
-import { User } from '../user/user.model';
+import { UserRegister } from '../auth/auth.model';
 
 const createBlog = catchAsync(async (req, res) => {
   const { title, content } = req.body;
 
   const receivedEmail = loginEmail;
 
-  const findUser = await User.findOne({ email: receivedEmail });
+  const findUser = await UserRegister.findOne({ email: receivedEmail });
 
   // Check if user is found
   if (!findUser) {

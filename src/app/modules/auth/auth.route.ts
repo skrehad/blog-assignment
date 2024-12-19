@@ -12,12 +12,6 @@ router.post(
 );
 
 router.post(
-  '/refresh-token',
-  validateRequest(AuthValidation.refreshTokenValidationSchema),
-  AuthController.refreshToken,
-);
-
-router.post(
   '/register',
   validateRequest(AuthValidation.RegisterValidationSchema),
   AuthController.createRegisterUser,
