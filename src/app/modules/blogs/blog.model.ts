@@ -10,11 +10,10 @@ const blogPostSchema = new Schema<TBlog>(
       author_id: { type: Schema.Types.ObjectId },
       name: { type: String },
       email: { type: String },
-      // ref: 'User',
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt fields
+    timestamps: true,
   },
 );
 

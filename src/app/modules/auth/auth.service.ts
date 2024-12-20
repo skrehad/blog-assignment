@@ -8,30 +8,33 @@ import { UserRegister } from './auth.model';
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
-  // const user = await UserRegister.isUserExistsByCustomId(payload.email);
+  const user = await UserRegister.isUserExistsEmail(payload.email);
+  // console.log(user);
 
-  // if (!user) {
-  //   throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
-  // }
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
+  }
 
   // checking if the user is blocked
-  // const userStatus = user?.isBlocked;
+  const userStatus = user?.isBlocked;
 
-  // if (userStatus === true) {
-  //   throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
-  // }
+  if (userStatus === true) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
+  }
 
-  //checking if the password is correct
-  // if (
-  //   !(await UserRegister.isPasswordMatched(payload?.password, user?.password))
-  // )
-  //   throw new AppError(StatusCodes.FORBIDDEN, 'Password do not matched');
+  // checking if the password is correct
+  if (
+    !(await UserRegister.isPasswordMatched(payload?.password, user?.password))
+  )
+    throw new AppError(StatusCodes.FORBIDDEN, 'Password do not matched');
 
   //create token and sent to the  client
   const jwtPayload = {
-    email: payload.email,
-    role: payload.password,
+    email: user.email,
+    role: user.role,
   };
+
+  console.log(jwtPayload);
 
   const accessToken = createToken(
     jwtPayload,
@@ -41,8 +44,6 @@ const loginUser = async (payload: TLoginUser) => {
 
   const decodedAccessToken = jwt.decode(accessToken) as { email: string };
   const emailFromAccessToken = decodedAccessToken?.email;
-
-  console.log('decoced email', emailFromAccessToken);
 
   loginUserEmail(emailFromAccessToken);
 

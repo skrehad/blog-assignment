@@ -5,7 +5,7 @@ const blockUserByAdminIntoDb = async (userId: string) => {
   const result = await UserRegister.findByIdAndUpdate(
     userId,
     { isBlocked: true },
-    { new: true }, // Updated document will be returned
+    { new: true },
   );
   return result;
 };

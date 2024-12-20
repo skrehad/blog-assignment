@@ -10,6 +10,7 @@ import { TUserRole } from '../modules/auth/auth.interface';
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const token = req.headers.authorization;
+    console.log('Required Roles:', requiredRoles);
 
     // checking if the token is missing
     if (!token) {
@@ -22,28 +23,26 @@ const auth = (...requiredRoles: TUserRole[]) => {
       config.jwt_access_secret as string,
     ) as JwtPayload;
 
-    const { role, userId, iat } = decoded;
+    const { email } = decoded;
+    console.log('Decoded Email:', email);
 
-    // checking if the user is exist
-    const user = await UserRegister.isUserExistsByCustomId(userId);
+    // checking if the user exists
+    const user = await UserRegister.isUserExistsEmail(email);
+    console.log('User Exists Data:', user);
 
     if (!user) {
-      throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
+      throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found!');
     }
 
     // checking if the user is blocked
-    const userStatus = user?.isBlocked;
-
-    if (userStatus === true) {
-      throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
+    if (user?.isBlocked) {
+      throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked!');
     }
 
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
-        StatusCodes.UNAUTHORIZED,
-        'You are not authorized  hi!',
-      );
-    }
+    // checking roles
+    // if (requiredRoles.length && !requiredRoles.includes(role)) {
+    //   throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized!');
+    // }
 
     req.user = decoded as JwtPayload;
     next();

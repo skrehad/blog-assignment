@@ -18,7 +18,7 @@ const userRegisterSchema = new Schema<TRegisterUser>(
 );
 
 userRegisterSchema.pre('save', async function (next) {
-  const user = this; // doc
+  const user = this;
   // hashing password and save into DB
 
   user.password = await bcrypt.hash(
@@ -34,10 +34,8 @@ userRegisterSchema.post('save', function (doc, next) {
   next();
 });
 
-userRegisterSchema.statics.isUserExistsByCustomId = async function (
-  id: string,
-) {
-  return await UserRegister.findOne({ id }).select('+password');
+userRegisterSchema.statics.isUserExistsEmail = async function (email: string) {
+  return await UserRegister.findOne({ email }).select('+password');
 };
 
 userRegisterSchema.statics.isPasswordMatched = async function (
@@ -45,15 +43,6 @@ userRegisterSchema.statics.isPasswordMatched = async function (
   hashedPassword,
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
-};
-
-userRegisterSchema.statics.isJWTIssuedBeforePasswordChanged = function (
-  passwordChangedTimestamp: Date,
-  jwtIssuedTimestamp: number,
-) {
-  const passwordChangedTime =
-    new Date(passwordChangedTimestamp).getTime() / 1000;
-  return passwordChangedTime > jwtIssuedTimestamp;
 };
 
 // Create and export the User model

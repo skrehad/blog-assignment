@@ -14,15 +14,11 @@ export type TRegisterUser = {
 };
 
 export interface UserModel extends Model<TRegisterUser> {
-  isUserExistsByCustomId(id: string): Promise<TRegisterUser>;
+  isUserExistsEmail(email: string): Promise<TRegisterUser>;
   isPasswordMatched(
     plainTextPassword: string,
     hashedPassword: string,
   ): Promise<boolean>;
-  isJWTIssuedBeforePasswordChanged(
-    passwordChangedTimestamp: Date,
-    jwtIssuedTimestamp: number,
-  ): boolean;
 }
 
 export type TUserRole = keyof typeof USER_ROLE;

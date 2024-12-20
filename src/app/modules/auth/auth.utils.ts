@@ -14,5 +14,4 @@ export let currentUserEmail: string | null = null;
 
 export const loginUserEmail = (email: string) => {
   currentUserEmail = email;
-  console.log('Current logged in user email:', currentUserEmail);
 };

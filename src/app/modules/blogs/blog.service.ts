@@ -1,5 +1,3 @@
-import QueryBuilder from '../../builder/QueryBuilder';
-import { BlogSearchableFields } from './blog.constant';
 import { TBlog } from './blog.interface';
 import { BlogPost } from './blog.model';
 
@@ -9,24 +7,31 @@ const createBlogIntoDB = async (payload: TBlog) => {
 };
 
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
-  const id = query.filter;
+  const { search, sortBy = 'createdAt', sortOrder = 'desc', filter } = query;
 
-  console.log(id);
+  const mongoQuery: Record<string, any> = {};
 
-  const result = await BlogPost.find({ 'author.author_id': id });
+  if (search) {
+    const searchRegex = new RegExp(search as string, 'i');
+    mongoQuery.$or = [
+      { title: { $regex: searchRegex } },
+      { content: { $regex: searchRegex } },
+    ];
+  }
 
-  // const blogQuery = new QueryBuilder(BlogPost.find(), query)
-  //   .search(BlogSearchableFields)
-  //   .filter()
-  //   .sort()
-  //   .fields();
-  // console.log(blogQuery.query.filter);
+  if (filter) {
+    mongoQuery['author.author_id'] = filter;
+  }
 
-  // // Execute the query and return the result
-  // return blogQuery.modelQuery;
+  const sortCriteria: Record<string, 1 | -1> = {
+    [sortBy as string]: sortOrder === 'asc' ? 1 : -1,
+  };
+
+  const result = await BlogPost.find(mongoQuery).sort(sortCriteria);
+
   return result;
 };
+
 const updateBlogFromDb = async (id: string, payload: Partial<TBlog>) => {
   const result = await BlogPost.findByIdAndUpdate({ _id: id }, payload, {
     new: true,

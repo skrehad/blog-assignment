@@ -10,20 +10,11 @@ const RegisterValidationSchema = z.object({
     .string({ required_error: 'Email is required.' })
     .email('Invalid email format'),
   password: z.string({ required_error: 'Password is required.' }),
-  role: z.enum(['admin', 'user']).default('user'), // Default value set to 'user'
-  isBlocked: z.boolean().default(false), // Default value set to false
-});
-
-const refreshTokenValidationSchema = z.object({
-  cookies: z.object({
-    refreshToken: z.string({
-      required_error: 'Refresh token is required!',
-    }),
-  }),
+  role: z.enum(['admin', 'user']).default('user'),
+  isBlocked: z.boolean().default(false),
 });
 
 export const AuthValidation = {
   loginValidationSchema,
   RegisterValidationSchema,
-  refreshTokenValidationSchema,
 };

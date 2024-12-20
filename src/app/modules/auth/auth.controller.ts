@@ -3,7 +3,6 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { AuthServices } from './auth.service';
 import config from '../../config';
-import { loginUserEmail } from './auth.utils';
 
 const createRegisterUser = catchAsync(async (req, res) => {
   const result = await AuthServices.registerUser(req.body);
@@ -17,9 +16,7 @@ const createRegisterUser = catchAsync(async (req, res) => {
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, email, accessToken } = result;
-
-  // loginUserEmail(email);
+  const { refreshToken, accessToken } = result;
 
   res.cookie('refreshToken', refreshToken, {
     secure: config.NODE_ENV === 'production',

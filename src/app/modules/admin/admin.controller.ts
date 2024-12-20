@@ -21,7 +21,7 @@ const deleteBlogByAdmin = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Blog delete successfully',
+    message: 'Blog is delete successfully',
   });
 });
 
