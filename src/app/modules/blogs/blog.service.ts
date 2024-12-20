@@ -1,5 +1,5 @@
 import QueryBuilder from '../../builder/QueryBuilder';
-import { CourseSearchableFields } from './blog.constant';
+import { BlogSearchableFields } from './blog.constant';
 import { TBlog } from './blog.interface';
 import { BlogPost } from './blog.model';
 
@@ -9,17 +9,23 @@ const createBlogIntoDB = async (payload: TBlog) => {
 };
 
 const getAllBlogsFromDB = async (query: Record<string, unknown>) => {
-  const result = await BlogPost.find();
+  console.log(query);
+  const id = query.filter;
 
-  const blogQuery = new QueryBuilder(BlogPost.find(), query)
-    .search(CourseSearchableFields)
-    .filter()
-    .sort()
-    .fields();
-  console.log(blogQuery.query.filter);
+  console.log(id);
 
-  // Execute the query and return the result
-  return blogQuery.modelQuery;
+  const result = await BlogPost.find({ 'author.author_id': id });
+
+  // const blogQuery = new QueryBuilder(BlogPost.find(), query)
+  //   .search(BlogSearchableFields)
+  //   .filter()
+  //   .sort()
+  //   .fields();
+  // console.log(blogQuery.query.filter);
+
+  // // Execute the query and return the result
+  // return blogQuery.modelQuery;
+  return result;
 };
 const updateBlogFromDb = async (id: string, payload: Partial<TBlog>) => {
   const result = await BlogPost.findByIdAndUpdate({ _id: id }, payload, {

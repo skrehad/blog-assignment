@@ -2,15 +2,16 @@ import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { BlogServices } from './blog.service';
-import { loginEmail } from '../auth/auth.utils';
+import { currentUserEmail } from '../auth/auth.utils';
 import { UserRegister } from '../auth/auth.model';
 
 const createBlog = catchAsync(async (req, res) => {
   const { title, content } = req.body;
 
-  const receivedEmail = loginEmail;
+  const receivedEmail = currentUserEmail;
 
   const findUser = await UserRegister.findOne({ email: receivedEmail });
+  console.log(receivedEmail);
 
   // Check if user is found
   if (!findUser) {
@@ -23,9 +24,10 @@ const createBlog = catchAsync(async (req, res) => {
   }
 
   // If user found, extract the name and email
-  const { name, email } = findUser;
+  const { _id, name, email } = findUser;
 
   const author = {
+    author_id: _id,
     name,
     email,
   };

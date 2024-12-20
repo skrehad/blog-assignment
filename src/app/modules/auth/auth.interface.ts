@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { USER_ROLE } from './auth.constant';
 
 export type TLoginUser = {
-  id: string;
+  email: string;
   password: string;
 };
 export type TRegisterUser = {

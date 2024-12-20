@@ -10,8 +10,9 @@ export const createToken = (
   });
 };
 
-export let loginEmail = '';
+export let currentUserEmail: string | null = null;
 
 export const loginUserEmail = (email: string) => {
-  return (loginEmail = email);
+  currentUserEmail = email;
+  console.log('Current logged in user email:', currentUserEmail);
 };
