@@ -4,12 +4,11 @@ import { TBlog } from './blog.interface';
 // BlogPost Schema Definition
 const blogPostSchema = new Schema<TBlog>(
   {
-    title: { type: String, required: true },
+    title: { type: String, required: true ,},
     content: { type: String, required: true },
     author: {
-      author_id: { type: Schema.Types.ObjectId },
-      name: { type: String },
-      email: { type: String },
+      type: Schema.Types.ObjectId,
+      ref:"Users"
     },
   },
   {

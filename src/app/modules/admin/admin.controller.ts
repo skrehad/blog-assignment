@@ -1,12 +1,12 @@
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
-import { adminService } from './admin.service';
+import { adminServices } from './admin.service';
 
 const blockUserByAdmin = catchAsync(async (req, res) => {
   const { userId } = req.params;
-  // console.log(req.params);
-  const result = await adminService.blockUserByAdminIntoDb(userId);
+  // //console.log(req.params);
+  await adminServices.blockUserByAdminIntoDB(userId);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
@@ -16,12 +16,12 @@ const blockUserByAdmin = catchAsync(async (req, res) => {
 
 const deleteBlogByAdmin = catchAsync(async (req, res) => {
   const { id } = req.params;
-  // console.log(req.params);
-  const result = await adminService.deleteBlogByAdminIntoDb(id);
+  // //console.log(req.params);
+  await adminServices.deleteBlogByAdminIntoDB(id);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Blog is delete successfully',
+    message: 'Blog is delete successfully by Admin',
   });
 });
 

@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import config from '../../config';
 import { TLoginUser, TRegisterUser } from './auth.interface';
 import AppError from '../../errors/AppError';
@@ -8,8 +8,10 @@ import { UserRegister } from './auth.model';
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
-  const user = await UserRegister.isUserExistsEmail(payload.email);
-  // console.log(user);
+
+  const user = await UserRegister.isUserExistsEmail(payload?.email);
+
+  //console.log('user', user);
 
   if (!user) {
     throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
@@ -34,7 +36,7 @@ const loginUser = async (payload: TLoginUser) => {
     role: user.role,
   };
 
-  console.log(jwtPayload);
+  //console.log(jwtPayload);
 
   const accessToken = createToken(
     jwtPayload,

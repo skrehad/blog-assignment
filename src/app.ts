@@ -15,12 +15,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // application route
-app.use('/api/', router);
+app.use('/api', router);
 
 // Test route
 const test = async (req: Request, res: Response) => {
-  const a = 10; // Example data
-  res.status(200).send({ value: a }); // Respond with a valid status and data
+  res.send('server is running');
 };
 
 app.get('/', test);

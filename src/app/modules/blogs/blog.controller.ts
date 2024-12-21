@@ -11,26 +11,22 @@ const createBlog = catchAsync(async (req, res) => {
   const receivedEmail = currentUserEmail;
 
   const findUser = await UserRegister.findOne({ email: receivedEmail });
-  console.log(receivedEmail);
+  //console.log(receivedEmail);
 
   // Check if user is found
   if (!findUser) {
     return sendResponse(res, {
       statusCode: StatusCodes.NOT_FOUND,
       success: false,
-      message: 'User not found',
+      message: 'User is not found',
       data: null,
     });
   }
 
   // If user found, extract the name and email
-  const { _id, name, email } = findUser;
+  const { _id } = findUser;
 
-  const author = {
-    author_id: _id,
-    name,
-    email,
-  };
+  const author = _id;
 
   const blogData = {
     title,
@@ -43,7 +39,7 @@ const createBlog = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Blog created successfully',
+    message: 'Blog is created successfully',
     data: result,
   });
 });
@@ -66,7 +62,7 @@ const updateBlog = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Blog updated successfully',
+    message: 'Blog is updated successfully',
     data: result,
   });
 });
@@ -74,12 +70,11 @@ const updateBlog = catchAsync(async (req, res) => {
 // for delete Blog data
 const deleteBlog = catchAsync(async (req, res) => {
   const { id } = req.params;
-  // console.log(req.params);
-  const result = await BlogServices.deleteBlogFromDb(id);
+  await BlogServices.deleteBlogFromDb(id);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'Blog delete successfully',
+    message: 'Blog is delete successfully',
   });
 });
 
