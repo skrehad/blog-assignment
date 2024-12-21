@@ -4,11 +4,7 @@ import { BlogPost } from '../blogs/blog.model';
 
 const blockUserByAdminIntoDB = async (userId: string) => {
   const receivedEmail = currentUserEmail;
-  const findUser = await UserRegister.findOne({ email: receivedEmail });
-  //console.log(findUser);
-  if (findUser?.role !== 'admin') {
-    throw new Error('You are not an admin for block A User!');
-  }
+  // const findUser = await UserRegister.findOne({ email: receivedEmail });
 
   const result = await UserRegister.findByIdAndUpdate(
     userId,
@@ -19,12 +15,12 @@ const blockUserByAdminIntoDB = async (userId: string) => {
 };
 
 const deleteBlogByAdminIntoDB = async (id: string) => {
-  const receivedEmail = currentUserEmail;
-  const findUser = await UserRegister.findOne({ email: receivedEmail });
-  //console.log(findUser);
-  if (findUser?.role !== 'admin') {
-    throw new Error('You are not an admin !');
-  }
+  // const receivedEmail = currentUserEmail;
+  // const findUser = await UserRegister.findOne({ email: receivedEmail });
+  // //console.log(findUser);
+  // if (findUser?.role !== 'admin') {
+  //   throw new Error('You are not an admin !');
+  // }
   const result = await BlogPost.findByIdAndDelete(id);
   return result;
 };

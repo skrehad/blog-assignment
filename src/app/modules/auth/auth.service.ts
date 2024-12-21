@@ -38,13 +38,13 @@ const loginUser = async (payload: TLoginUser) => {
 
   //console.log(jwtPayload);
 
-  const accessToken = createToken(
+  const token = createToken(
     jwtPayload,
     config.jwt_access_secret as string,
     config.jwt_access_expires_in as string,
   );
 
-  const decodedAccessToken = jwt.decode(accessToken) as { email: string };
+  const decodedAccessToken = jwt.decode(token) as { email: string };
   const emailFromAccessToken = decodedAccessToken?.email;
 
   loginUserEmail(emailFromAccessToken);
@@ -56,7 +56,7 @@ const loginUser = async (payload: TLoginUser) => {
   );
 
   return {
-    accessToken,
+    token,
     email: payload.email,
     refreshToken,
   };
